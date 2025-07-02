@@ -2,18 +2,24 @@
 
 import { useToken } from "@/context/token-context";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AuthRoute({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isAuthenticated } = useToken();
+  const { isAuthenticated, loading } = useToken();
   const router = useRouter();
 
-  if (isAuthenticated()) {
-    router.replace("/dashboard");
-    return;
+  useEffect(() => {
+    if (isAuthenticated()) {
+      router.replace("/dashboard");
+    }
+  }, [isAuthenticated, router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return <>{children}</>;

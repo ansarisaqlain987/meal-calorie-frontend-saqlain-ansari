@@ -2,18 +2,24 @@
 
 import { useToken } from "@/context/token-context";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ProtectedRoute({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isAuthenticated } = useToken();
+  const { isAuthenticated, loading } = useToken();
   const router = useRouter();
 
-  if (!isAuthenticated()) {
-    router.replace("/sign-in");
-    return;
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.replace("/sign-in");
+    }
+  }, [isAuthenticated, router, loading]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return <>{children}</>;
