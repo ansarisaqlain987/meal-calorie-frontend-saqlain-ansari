@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { useToken } from "@/context/token-context";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,10 +28,19 @@ export function LoginForm({
   login: (body: { email: string; password: string }) => Promise<{
     success: boolean;
     message?: string;
-    data?: unknown;
+    data?: {
+      token: string;
+      user: {
+        id: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+      };
+    };
   }>;
 }) {
   const router = useRouter();
+  const { setToken } = useToken();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +56,7 @@ export function LoginForm({
       alert(resp?.message ?? "Unauthorized");
       return;
     }
+    setToken(resp.data?.token ?? "");
     router.replace("/dashboard");
   }
   return (
