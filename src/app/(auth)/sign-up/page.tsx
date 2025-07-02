@@ -1,4 +1,5 @@
 import { SignupForm } from "@/components/signup-form";
+import { register } from "@/lib/api";
 import { GalleryVerticalEnd } from "lucide-react";
 
 import Image from "next/image";
@@ -17,7 +18,7 @@ export default function SignipPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <SignupForm />
+            <SignupForm onRegister={register} />
           </div>
         </div>
       </div>

@@ -16,29 +16,14 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { useToken } from "@/context/token-context";
+import { login } from "@/lib/api";
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(4).max(20),
 });
 
-export function LoginForm({
-  login: onLogin,
-}: {
-  login: (body: { email: string; password: string }) => Promise<{
-    success: boolean;
-    message?: string;
-    data?: {
-      token: string;
-      user: {
-        id: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-      };
-    };
-  }>;
-}) {
+export function LoginForm({ onLogin }: { onLogin: typeof login }) {
   const router = useRouter();
   const { setToken } = useToken();
   const form = useForm<z.infer<typeof formSchema>>({

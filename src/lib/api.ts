@@ -1,5 +1,6 @@
 "use server";
 import { Constants } from "@/config/constants";
+import { LoginResponse, RegisterResponse } from "@/types";
 
 export async function login(body: { email: string; password: string }) {
   const url = `${Constants.API_URL}/auth/login`;
@@ -10,19 +11,7 @@ export async function login(body: { email: string; password: string }) {
     },
     body: JSON.stringify(body),
   });
-  const resBody: {
-    success: boolean;
-    message?: string;
-    data?: {
-      token: string;
-      user: {
-        id: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-      };
-    };
-  } = await resp.json();
+  const resBody: LoginResponse = await resp.json();
   return resBody;
 }
 
@@ -41,5 +30,6 @@ export async function register(body: {
     body: JSON.stringify(body),
   });
 
-  return { status: resp.status, data: await resp.json() };
+  const resBody: RegisterResponse = await resp.json();
+  return resBody;
 }
