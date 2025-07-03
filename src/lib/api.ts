@@ -33,3 +33,16 @@ export async function register(body: {
   const resBody: RegisterResponse = await resp.json();
   return resBody;
 }
+
+export async function searchDish(body: { dish: string; serving: number }) {
+  const url = `${Constants.API_URL}/search`;
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  const resBody = await resp.json();
+  return resBody;
+}

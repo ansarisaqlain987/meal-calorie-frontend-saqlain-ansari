@@ -34,7 +34,7 @@ export function SearchItem({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     searchFuntion({
       dish: values.dish,
       serving: values.serving,

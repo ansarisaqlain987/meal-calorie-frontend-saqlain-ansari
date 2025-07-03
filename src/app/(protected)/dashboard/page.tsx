@@ -6,6 +6,8 @@ import { Utensils } from "lucide-react";
 export default function Page() {
   function searchFn(input: { dish: string; serving: number }) {
     console.log(input);
+    // api to fetch records
+    // update the local state
   }
   return (
     <div className="space-y-6">
