@@ -1,13 +1,17 @@
 "use client";
 
+import { ListDishes } from "@/components/list-dishes";
 import { SearchItem } from "@/components/search-item";
 import { Utensils } from "lucide-react";
+import { useState } from "react";
 
 export default function Page() {
+  const [queryData, setSearchQuery] = useState<{
+    dish: string;
+    serving: number;
+  }>({ dish: "", serving: 1 });
   function searchFn(input: { dish: string; serving: number }) {
-    console.log(input);
-    // api to fetch records
-    // update the local state
+    setSearchQuery(input);
   }
   return (
     <div className="space-y-6">
@@ -25,6 +29,8 @@ export default function Page() {
         data={{ dish: "", serving: 1 }}
         searchFuntion={(input) => searchFn(input)}
       />
+
+      <ListDishes queryData={queryData} />
     </div>
   );
 }

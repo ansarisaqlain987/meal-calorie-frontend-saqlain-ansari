@@ -22,3 +22,10 @@ export type RegisterResponse = {
     user: UserObject;
   };
 };
+
+export type SearchResult = {
+  dish_name: string;
+  calories_per_serving: number;
+  serving: number;
+  total_calories: number;
+};

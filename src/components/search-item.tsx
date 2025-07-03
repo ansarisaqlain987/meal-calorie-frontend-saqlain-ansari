@@ -34,6 +34,8 @@ export function SearchItem({
     },
   });
 
+  const { register } = form;
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     searchFuntion({
       dish: values.dish,
@@ -78,7 +80,11 @@ export function SearchItem({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        {...register("serving", { valueAsNumber: true })}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
