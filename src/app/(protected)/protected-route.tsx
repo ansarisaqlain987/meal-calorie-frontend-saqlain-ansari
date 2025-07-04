@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import { useToken } from "@/context/token-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -19,7 +20,11 @@ export default function ProtectedRoute({
   }, [isAuthenticated, router, loading]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full flex justify-center items-center mt-4">
+        <Loader />
+      </div>
+    );
   }
 
   return <>{children}</>;

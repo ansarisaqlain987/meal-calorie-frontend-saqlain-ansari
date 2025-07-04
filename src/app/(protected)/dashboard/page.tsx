@@ -14,8 +14,8 @@ export default function Page() {
     setSearchQuery(input);
   }
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
+    <div className="space-y-6 h-screen flex flex-col">
+      <div className="text-center space-y-2 mt-4">
         <h1 className="text-3xl font-bold text-gray-900 flex items-center justify-center gap-2">
           <Utensils className="h-8 w-8 text-green-600" />
           Meal Calorie Calculator
