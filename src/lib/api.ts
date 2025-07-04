@@ -1,6 +1,11 @@
 "use server";
 import { Constants } from "@/config/constants";
-import { LoginResponse, RegisterResponse, SearchResult } from "@/types";
+import {
+  HistoryResult,
+  LoginResponse,
+  RegisterResponse,
+  SearchResult,
+} from "@/types";
 
 export async function login(body: { email: string; password: string }) {
   const url = `${Constants.API_URL}/auth/login`;
@@ -50,4 +55,19 @@ export async function searchDish(
   if (resp.status !== 200) return [];
   const resBody = await resp.json();
   return resBody.data as SearchResult[];
+}
+
+export async function getHistory(token: string) {
+  const url = `${Constants.API_URL}/history`;
+  const resp = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(resp);
+  if (resp.status !== 200) return [];
+  const resBody = await resp.json();
+  return resBody.data as HistoryResult[];
 }

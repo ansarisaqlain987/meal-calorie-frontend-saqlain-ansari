@@ -29,3 +29,10 @@ export type SearchResult = {
   serving: number;
   total_calories: number;
 };
+
+export type HistoryResult = {
+  foodName: string;
+  serving: number;
+  searchedAt: string[];
+  searchString: string;
+};

@@ -21,6 +21,65 @@ function SectionLoader() {
   );
 }
 
+function FoodItem({ food }: { food: SearchResult }) {
+  const calory_colors = {
+    high: "text-red-600",
+    medium: "text-orange-600",
+    low: "text-green-600",
+    high_bg: "bg-red-100",
+    medium_bg: "bg-orange-100",
+    low_bg: "bg-green-100",
+  };
+
+  function getCaloryColor(calories: number, bg = false) {
+    if (bg) {
+      if (calories < 300) {
+        return calory_colors.low_bg;
+      } else if (calories > 600) {
+        return calory_colors.high_bg;
+      } else {
+        return calory_colors.medium_bg;
+      }
+    }
+    if (calories < 300) {
+      return calory_colors.low;
+    } else if (calories > 600) {
+      return calory_colors.high;
+    } else {
+      return calory_colors.medium;
+    }
+  }
+  return (
+    <div
+      className={cn(
+        "p-4 border rounded-lg hover:opacity-80 cursor-pointer transition-colors text-gray-600",
+        getCaloryColor(food.calories_per_serving, true)
+      )}
+    >
+      <div className={"flex items-center justify-between"}>
+        <div className="flex-1">
+          <h3 className="font-semibold text-lg">{food.dish_name}</h3>
+          <p className="text-sm ">Serving: {food.serving}</p>
+        </div>
+        <div className="text-right">
+          <div
+            className={cn(
+              "flex items-center gap-1 font-bold text-xl justify-end",
+              getCaloryColor(food.calories_per_serving)
+            )}
+          >
+            <Flame className="h-5 w-5" />
+            {food.total_calories} cal
+          </div>
+          <div className={"flex items-center justify-end gap-1 font-light"}>
+            {food.calories_per_serving} cal (per serving)
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ListDishes({
   queryData,
 }: {
@@ -29,11 +88,6 @@ export function ListDishes({
     serving: number;
   };
 }) {
-  const calory_colors = {
-    high: "text-red-600",
-    medium: "text-orange-600",
-    low: "text-green-600",
-  };
   const [data, setData] = useState<SearchResult[]>([]);
   const { token } = useToken();
   const [loading, setLoading] = useState<boolean>(false);
@@ -72,48 +126,10 @@ export function ListDishes({
         <CardContent>
           {loading && <SectionLoader />}
           {!loading && data.length > 0 && (
-            <div>
-              <div className="grid gap-3">
-                {data.map((food, index) => (
-                  <div
-                    key={index}
-                    className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-lg">
-                          {food.dish_name}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          Serving: {food.serving}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <div
-                          className={cn(
-                            "flex items-center gap-1 font-bold text-xl justify-end",
-                            food.calories_per_serving < 300
-                              ? calory_colors.low
-                              : food.calories_per_serving > 600
-                              ? calory_colors.high
-                              : calory_colors.medium
-                          )}
-                        >
-                          <Flame className="h-5 w-5" />
-                          {food.total_calories} cal
-                        </div>
-                        <div
-                          className={
-                            "flex items-center justify-end gap-1 font-light"
-                          }
-                        >
-                          {food.calories_per_serving} cal (per serving)
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="grid gap-3">
+              {data.map((food, index) => (
+                <FoodItem key={index} food={food} />
+              ))}
             </div>
           )}
           {!loading && data.length == 0 && (
