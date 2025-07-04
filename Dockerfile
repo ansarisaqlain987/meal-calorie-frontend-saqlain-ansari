@@ -27,6 +27,7 @@ RUN npm install --only=production
 
 # Copy built app from build stage
 COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
 
 # Expose port
 EXPOSE 3000
